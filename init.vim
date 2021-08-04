@@ -1,12 +1,11 @@
 set nocompatible
 
-:set shell=powershell.exe
+set shell=powershell.exe
 
 let s:using_snippets=1
 
 let mapleader="\<Space>"
 call plug#begin('~/.vim/plugged')
-
 Plug 'OmniSharp/omnisharp-vim'
 Plug 'neovim/nvim-lspconfig'
 Plug 'puremourning/vimspector'
@@ -30,11 +29,9 @@ Plug 'HerringtonDarkholme/Yats.vim'
 Plug 'maxMEllon/vim-jsx-pretty'
 Plug 'xolox/vim-misc'
 Plug 'xolox/vim-notes'
-
 if s:using_snippets
   Plug 'sirver/ultisnips'
 endif
-
 call plug#end()
 
 set termguicolors
@@ -73,8 +70,8 @@ map <leader>k :wincmd k<CR>
 map <leader>l :wincmd l<CR>
 
 " MOVEMENT
-map <leader>k <C-u><CR>
-map <leader>j <C-d><CR>
+map <leader>K <C-u><CR>
+map <leader>J <C-d><CR>
 
 " BUFFERS
 map <leader>b :bp<CR>
@@ -141,7 +138,6 @@ let g:airline_left_sep = ""
 let g:ale_completion_autoimport = 1
 
 " NERDTREE
-nnoremap <C-t> :NERDTree<CR>
 nnoremap <leader>v :NERDTreeToggle<CR>
 nnoremap <C-f> :NERDTreeFind<CR>
 let g:NERDTreeWinSize=40
@@ -153,10 +149,15 @@ hi! Normal ctermbg=NONE guibg=NONE
 hi! NonText ctermbg=NONE guibg=NONE
 
 " DEBUGGER
-map <leader>g :lua require'dap'.toggle_breakpoint()
-map <leader>o :lua require'dap'.step_over()
-map <leader>i :lua require'dap'.step_into()
-map <leader>c :lua require'dap'.continur()
+let g:vimspector_enable_mappings = 'HUMAN'
+nmap <leader>dd :call vimspector#Launch()<CR>
+nmap <leader>dx :call vimspector#Reset()<CR>
+nmap <leader>dc :call vimspector#Continue()<CR>
+nmap <leader>tb <Plug>VimspectorToggleBreakpoint
+nmap <leader>si <Plug>VimspectorStepInto
+nmap <leader>so <Plug>VimspectorStepOver
+nmap <leader>su <Plug>VimspectorStepOut
+autocmd FileType java nmap <leader>dd :CocCommand java.debug.vimspector.start<CR>
 
 " mnemonic 'di' = 'debug inspect' (pick your own, if you prefer!)
 
@@ -164,4 +165,3 @@ map <leader>c :lua require'dap'.continur()
 nmap <Leader>di <Plug>VimspectorBalloonEval
 " for visual mode, the visually selected text
 xmap <Leader>di <Plug>VimspectorBalloonEval
-
